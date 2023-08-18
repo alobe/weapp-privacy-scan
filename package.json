@@ -1,0 +1,32 @@
+{
+  "name": "weapp-privacy-scan",
+  "version": "1.0.7",
+  "description": "",
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "tsup-node src/index.ts"
+  },
+  "author": "alobef0515@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/minimist": "^1.2.2",
+    "@types/node": "^20.5.0",
+    "tsup": "^7.2.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.1",
+    "minimist": "^1.2.8"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  }
+}
