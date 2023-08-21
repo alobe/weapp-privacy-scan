@@ -1,4 +1,4 @@
-# weapp privacy scan
+# [weapp privacy scan](https://github.com/alobe/weapp-privacy-scan)
 
 ## 介绍
 针对微信小程序8月10号公布的[隐私保护指引](https://developers.weixin.qq.com/community/develop/doc/00042e3ef54940ce8520e38db61801)改造的开发者使用的cli分析工具，用于检查小程序构建包是否有使用隐私保护指引改造涉及的组件或接口。
