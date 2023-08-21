@@ -12,7 +12,7 @@ const base = args.p || '.';
 const needDetails = args.d || false;
 const appjson = JSON.parse(fs.readFileSync(`${base}/app.json`, 'utf-8'));
 // 所有打包后的页面
-const allPages = appjson.pages.concat(appjson.subPackages.map((p: any) => p.pages.map((_p: any) => p.root + '/' + _p)).flat())
+const allPages = appjson.pages.concat((appjson.subPackages ?? []).map((p: any) => p.pages.map((_p: any) => p.root + '/' + _p)).flat())
 
 // 所有打包的文件
 const files = fg.sync(`${base}/**/*.{js,wxml,json}`)

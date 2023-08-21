@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "bin": "dist/index.js",
+  "repository": "alobe/weapp-privacy-scan",
   "files": [
     "dist"
   ],
