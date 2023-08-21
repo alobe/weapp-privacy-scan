@@ -5,8 +5,8 @@ import fs from 'fs';
 import path from 'path';
 
 // 计时开始
-console.time('文件处理总耗时')
-
+console.time('文件处理完成，总耗时')
+console.log('扫描打包文件...')
 const args = mst(process.argv.slice(2));
 const base = args.p || '.';
 const needDetails = args.d || false;
@@ -90,7 +90,7 @@ const privacySet = {
     ]
   }
 }
-
+console.log('打包文件分析...');
 const mark = {
   js: fileMap.js.map(f => {
     const content = fs.readFileSync(f, 'utf8')
@@ -205,4 +205,4 @@ function analysisFile (p: string): any {
   }
 }
 // 计时结束
-console.timeEnd('文件处理总耗时')
+console.timeEnd('文件处理完成，总耗时')
