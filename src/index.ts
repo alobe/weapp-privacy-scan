@@ -94,62 +94,50 @@ console.log('打包文件分析...');
 const mark = {
   js: fileMap.js.map(f => {
     const content = fs.readFileSync(f, 'utf8')
-    let flag = false
-    let markApi = ''
+    let markApi: string[] = []
     
     // 校验wx api
     privacySet.wx.forEach(api => {
-        if (flag) return
         // 特殊处理authorize Api
         if (api !== 'authorize' && content.includes(`.${api}(`) || api === 'authorize' && content.includes(`.${api}({scope`)) {
-          flag = true
-          markApi = api
+          markApi.push(api)
         }
     })
   
     // 校验原生api
     privacySet.raw.forEach(api => {
-      if (flag) return
       if (content.includes(api)) {
-        flag = true
-        markApi = api
+        markApi.push(api)
       }
     })
-    return flag ? { file: f, api: markApi } : null
+    return markApi.length ? { file: f, api: markApi } : null
   }).filter(Boolean),
   wxml: fileMap.wxml.map(f => {
     const content = fs.readFileSync(f, 'utf8')
-    let flag = false
-    let markObj = null
+    let markArr: any[] = []
 
     // open-type属性检测
     privacySet.component.openType.forEach(type => {
-      if (flag) return
       if (content.includes(`open-type="${type}"`)) {
-        flag = true
-        markObj = { type: 'open-type', file: f, attr: type }
+        markArr.push({ type: 'open-type', file: f, attr: type })
       }
     })
 
     // 原生type属性检测
     privacySet.component.type.forEach(type => {
-      if (flag) return
       if (content.includes(`type="${type}`)) {
-        flag = true
-        markObj = { type: 'type', file: f, attr: type }
+        markArr.push({ type: 'type', file: f, attr: type })
       }
     })
 
     // 原生组件检测
     privacySet.component.raw.forEach(r => {
-      if (flag) return
       if (content.includes(`<${r}`)) {
-        flag = true
-        markObj = { type: 'raw-component', file: f, component: r }
+        markArr.push({ type: 'raw-component', file: f, component: r })
       }
     })
 
-    return markObj
+    return markArr.length ? markArr : null
   }).filter(Boolean)
 }
 
@@ -177,7 +165,7 @@ if (needHandlePages.length) {
 
 function analysisFile (p: string): any {
   // 当前路径文件检测
-  let f: any = mark.wxml.find((m: any) => m.file.includes(p))
+  let f: any = mark.wxml.find((m: any) => m.some((_m: any) => _m.file.includes(p)))
   if (f) {
     return {
       page: p,
