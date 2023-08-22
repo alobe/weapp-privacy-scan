@@ -187,7 +187,10 @@ function analysisFile (p: string): any {
     const jsonObj = JSON.parse(json)
     const deps = Object.values(jsonObj.usingComponents || {})
     if (deps.length) {
-      const result = deps.map((d: any) => analysisFile(d)).filter(Boolean)
+      const result = deps.map((d: any) => {
+        const detail = analysisFile(d)
+        if (detail) return { depFile: d, detail }
+      }).filter(Boolean)
       if (result.length) return result.flat()
     }
   }
