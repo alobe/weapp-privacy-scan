@@ -91,6 +91,8 @@ const privacySet = {
   }
 }
 console.log('打包文件分析...');
+let privacyApis: string[] = []
+let privacyComponents: any[] = []
 const mark = {
   js: fileMap.js.map(f => {
     const content = fs.readFileSync(f, 'utf8')
@@ -110,6 +112,7 @@ const mark = {
         markApi.push(api)
       }
     })
+    privacyApis = privacyApis.concat(markApi)
     return markApi.length ? { file: f, api: markApi } : null
   }).filter(Boolean),
   wxml: fileMap.wxml.map(f => {
@@ -136,7 +139,7 @@ const mark = {
         markArr.push({ type: 'raw-component', file: f, component: r })
       }
     })
-
+    privacyComponents = privacyComponents.concat(markArr)
     return markArr.length ? markArr : null
   }).filter(Boolean)
 }
@@ -155,12 +158,18 @@ if (needHandlePages.length) {
   fs.writeFileSync(
     path.join(process.cwd(), './privacy-pages.json'),
     JSON.stringify({
-      ...(needDetails ? { details: needHandlePages } : {}),
       needPrivacySettingPages: needHandlePages.map((p: any) => p.page),
+      privacyDetails: {
+        Apis: [...new Set(privacyApis)],
+        Components: privacyComponents,
+      },
       allPages,
+      ...(needDetails ? { details: needHandlePages } : {}),
     }, null, 2),
     'utf8',
   )
+} else {
+  console.log('没有需要进行隐私处理的页面')
 }
 
 function analysisFile (p: string): any {
