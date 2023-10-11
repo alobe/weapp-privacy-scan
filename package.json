@@ -12,7 +12,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "tsup-node src/index.ts"
+    "build": "tsup-node src/*"
   },
   "author": "alobef0515@gmail.com",
   "license": "ISC",
